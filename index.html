@@ -1,98 +1,322 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>버거킹 | Burger King</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>포트폴리오 | Vorsprung durch Technik</title>
+    <style>
+        /* 아우디 디자인 시스템 변수 설정 */
+        :root {
+            --bg-dark: #000000;
+            --bg-gray: #111111;
+            --audi-red: #E00000;
+            --text-main: #FFFFFF;
+            --text-muted: #888888;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Noto Sans KR', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* 스크롤바 커스텀 */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-dark); }
+        ::-webkit-scrollbar-thumb { background: var(--text-muted); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--audi-red); }
+
+        /* 상단 내비게이션 바 (Glassmorphism 투명 블러 효과) */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--text-main);
+            text-decoration: none;
+        }
+
+        .nav-links a {
+            color: var(--text-main);
+            text-decoration: none;
+            margin-left: 30px;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-links a:hover {
+            color: var(--audi-red);
+        }
+
+        /* 메인 히어로 섹션 (전체 화면 배경 이미지) */
+        #hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            /* 고화질 아우디 R8 이미지 적용 */
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.8)), 
+                        url('https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?q=80&w=2000&auto=format&fit=crop') center/cover no-repeat;
+            padding: 0 20px;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 300;
+            margin-bottom: 10px;
+            letter-spacing: 4px;
+            animation: fadeUp 1s ease forwards;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+            animation: fadeUp 1.2s ease forwards;
+        }
+
+        .hero-btn {
+            padding: 15px 40px;
+            background-color: transparent;
+            border: 1px solid var(--text-main);
+            color: var(--text-main);
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            animation: fadeUp 1.4s ease forwards;
+        }
+
+        .hero-btn:hover {
+            background-color: var(--audi-red);
+            border-color: var(--audi-red);
+        }
+
+        /* 공통 레이아웃 */
+        section {
+            padding: 100px 10vw;
+            background-color: var(--bg-gray);
+        }
+
+        section:nth-child(even) {
+            background-color: var(--bg-dark);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 300;
+            margin-bottom: 50px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-align: center;
+        }
+
+        /* 포트폴리오(모델) 카드 그리드 */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: #1a1a1a;
+            overflow: hidden;
+            border-radius: 4px;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(224, 0, 0, 0.2);
+        }
+
+        .card-img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .card:hover .card-img {
+            transform: scale(1.05);
+        }
+
+        .card-content {
+            padding: 25px;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--text-main);
+        }
+
+        .card-desc {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* 스크롤 등장 애니메이션 세팅 */
+        .hidden {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 모바일 반응형 화면 */
+        @media (max-width: 768px) {
+            .hero-title { font-size: 2.5rem; }
+            nav { padding: 20px; flex-direction: column; gap: 15px; }
+            .nav-links a { margin: 0 10px; }
+        }
+    </style>
 </head>
-<body id="top">
+<body>
 
-<!-- HEADER -->
-<header class="hd">
-  <a class="logo" href="#top"><span class="bun">BURGER</span><b>KING</b></a>
-  <button class="burger" aria-label="메뉴 열기" aria-expanded="false"><i></i><i></i><i></i></button>
-  <nav class="gnb">
-    <a href="#menu">BURGER</a>
-    <a href="#menu">CHICKEN</a>
-    <a href="#story">STORY</a>
-    <a href="#event">EVENT</a>
-    <a href="#store">STORE</a>
-  </nav>
-</header>
+    <!-- 내비게이션 -->
+    <nav>
+        <a href="#" class="logo">RYEWON SON</a>
+        <div class="nav-links">
+            <a href="#hero">Home</a>
+            <a href="#portfolio">Models</a>
+            <a href="#technology">Technology</a>
+        </div>
+    </nav>
 
-<!-- HERO SLIDER -->
-<section class="hero">
-  <div class="slide on s1"><div class="txt"><small>SIGNATURE</small><h1>직화의 맛,<br><em>와퍼</em></h1><p>불꽃에 구운 패티를 한 입에.</p><a class="btn" href="#menu">VIEW</a></div><div class="art">🍔</div></div>
-  <div class="slide s2"><div class="txt"><small>CHICKEN</small><h1>바삭하게,<br><em>한 번 더</em></h1><p>갓 튀겨낸 치킨 라인업.</p><a class="btn" href="#menu">VIEW</a></div><div class="art">🍗</div></div>
-  <div class="slide s3"><div class="txt"><small>SIDE</small><h1>곁들이면<br><em>완벽</em></h1><p>프라이와 어니언링을 함께.</p><a class="btn" href="#menu">VIEW</a></div><div class="art">🍟</div></div>
-  <div class="slide s4"><div class="txt"><small>EVENT</small><h1>첫 주문<br><em>할인</em></h1><p>이벤트 문구를 여기에 적어 주세요.</p><a class="btn" href="#event">VIEW</a></div><div class="art">🎟️</div></div>
-  <div class="dots"><button class="on" aria-label="슬라이드 1"></button><button aria-label="슬라이드 2"></button><button aria-label="슬라이드 3"></button><button aria-label="슬라이드 4"></button></div>
-</section>
+    <!-- 히어로 섹션 -->
+    <header id="hero">
+        <h1 class="hero-title">Vorsprung durch Technik</h1>
+        <p class="hero-subtitle">기술을 통한 진보. 혁신적인 경험을 설계하는 웹 개발자 손례원입니다.</p>
+        <a href="#portfolio" class="hero-btn">프로젝트 라인업 보기</a>
+    </header>
 
-<!-- TILES -->
-<section class="tiles" id="menu">
-  <a class="tile t-event" href="#event"><small>이번 주 추천! EVENT</small><h2>오늘은 와퍼 먹는 날</h2><p>이벤트 문구를 여기에 적어 주세요.</p><span class="ico">🎉</span></a>
-  <a class="tile t-burger" href="#"><small>BURGER</small><h2>와퍼</h2><p>직화로 구운 패티 버거</p><span class="ico">🍔</span></a>
-  <a class="tile t-spicy" href="#"><small>매워요 BURGER</small><h2>콰트로치즈와퍼</h2><p>치즈 네 장, 진한 한 입</p><span class="ico">🧀</span></a>
-  <a class="tile t-chicken" href="#"><small>CHICKEN</small><h2>치킨버거</h2><p>바삭한 치킨 패티</p><span class="ico">🍗</span></a>
-  <a class="tile t-side" href="#"><small>SIDE</small><h2>어니언링</h2><p>사이드의 정석</p><span class="ico">🧅</span></a>
-  <a class="tile t-set" href="#"><small>SET</small><h2>세트메뉴</h2><p>든든하게 한 끼</p><span class="ico">🥤</span></a>
-  <a class="tile t-store" href="#store"><small>STORE</small><h2>가까운 매장 찾기</h2><p>우리 동네 버거킹은 어디?</p><span class="ico">📍</span></a>
-</section>
+    <!-- 모델 (포트폴리오) 섹션 -->
+    <section id="portfolio">
+        <h2 class="section-title hidden">Our Models</h2>
+        <div class="portfolio-grid">
+            
+            <!-- 카드 1 (아우디 e-tron 이미지) -->
+            <div class="card hidden">
+                <img src="https://images.unsplash.com/photo-1610926950576-90f77259166f?q=80&w=800&auto=format&fit=crop" alt="프로젝트 1" class="card-img">
+                <div class="card-content">
+                    <h3 class="card-title">RS 9-Week</h3>
+                    <p class="card-desc">고성능 퍼포먼스를 자랑하는 9주차 과제 웹사이트입니다. 역동적인 UI와 빠른 응답속도를 구현했습니다.</p>
+                </div>
+            </div>
+            
+            <!-- 카드 2 (아우디 RS 이미지) -->
+            <div class="card hidden">
+                <img src="https://images.unsplash.com/photo-1606152421802-db97b9c7a11b?q=80&w=800&auto=format&fit=crop" alt="프로젝트 2" class="card-img">
+                <div class="card-content">
+                    <h3 class="card-title">e-tron Portfolio</h3>
+                    <p class="card-desc">미래지향적인 다크모드 디자인이 적용된 개인 포트폴리오. 혁신적인 전기차 라인업처럼 모던한 기술스택을 사용했습니다.</p>
+                </div>
+            </div>
+            
+            <!-- 카드 3 (클래식/플래그십 세단 이미지) -->
+            <div class="card hidden">
+                <img src="https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?q=80&w=800&auto=format&fit=crop" alt="프로젝트 3" class="card-img">
+                <div class="card-content">
+                    <h3 class="card-title">A8 Platform</h3>
+                    <p class="card-desc">플래그십 세단처럼 안정적이고 견고한 구조로 설계된 확장성 높은 웹 애플리케이션입니다.</p>
+                </div>
+            </div>
 
-<!-- MARQUEE -->
-<div class="marquee" aria-hidden="true"><div class="track">
-  <span>BURGER KING ★ 와퍼 ★ 직화로 구운 맛 ★ HAVE IT YOUR WAY ★ BURGER KING ★ 와퍼 ★ 직화로 구운 맛 ★ HAVE IT YOUR WAY ★ </span>
-  <span>BURGER KING ★ 와퍼 ★ 직화로 구운 맛 ★ HAVE IT YOUR WAY ★ BURGER KING ★ 와퍼 ★ 직화로 구운 맛 ★ HAVE IT YOUR WAY ★ </span>
-</div></div>
+        </div>
+    </section>
 
-<!-- STORY -->
-<section class="story" id="story">
-  <div class="wrap">
-    <small>우리 이야기</small>
-    <h2>불꽃으로 한 개씩 굽습니다</h2>
-    <p>브랜드 소개 문장을 여기에 적어 주세요. 두세 줄 정도가 보기 좋습니다. 샘플 문구이니 직접 수정해서 쓰세요.</p>
-    <ul class="stats">
-      <li><b data-to="100">0</b><span>매장 수 (샘플)</span></li>
-      <li><b data-to="30">0</b><span>운영 연수 (샘플)</span></li>
-      <li><b data-to="98">0</b><span>만족도 % (샘플)</span></li>
-    </ul>
-  </div>
-</section>
+    <!-- 기술 스택 섹션 -->
+    <section id="technology">
+        <h2 class="section-title hidden">Technology</h2>
+        <div class="portfolio-grid">
+            <div class="card hidden" style="background: transparent; border: 1px solid #333; text-align: center;">
+                <div class="card-content">
+                    <h3 class="card-title" style="color: var(--audi-red);">HTML5 & CSS3</h3>
+                    <p class="card-desc">웹의 기본 뼈대를 탄탄하게 구축하고, 최신 트렌드의 스타일링을 완벽하게 소화합니다.</p>
+                </div>
+            </div>
+            <div class="card hidden" style="background: transparent; border: 1px solid #333; text-align: center;">
+                <div class="card-content">
+                    <h3 class="card-title" style="color: var(--audi-red);">JavaScript</h3>
+                    <p class="card-desc">정적인 웹에 생명을 불어넣어 부드럽고 다이내믹한 사용자 경험(UX)을 제공합니다.</p>
+                </div>
+            </div>
+            <div class="card hidden" style="background: transparent; border: 1px solid #333; text-align: center;">
+                <div class="card-content">
+                    <h3 class="card-title" style="color: var(--audi-red);">Responsive Web</h3>
+                    <p class="card-desc">PC, 태블릿, 모바일 등 어떤 디바이스 환경에서도 최적화된 화면을 렌더링합니다.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<!-- EVENT -->
-<section class="event" id="event">
-  <div class="wrap">
-    <small>SPECIAL EVENT</small>
-    <h2>첫 주문 할인 이벤트</h2>
-    <p>이벤트 설명을 적어 주세요.</p>
-    <a class="btn dark" href="#">Reservation</a>
-  </div>
-</section>
+    <!-- 푸터 -->
+    <footer style="text-align: center; padding: 40px; background: #000; color: #555; border-top: 1px solid #222;">
+        <p>&copy; 2024 RYEWON SON. All rights reserved.</p>
+    </footer>
 
-<!-- STORE -->
-<section class="store" id="store">
-  <div class="wrap">
-    <small>가까운 곳에서</small>
-    <h2>매장 찾기</h2>
-    <form class="search" onsubmit="return false">
-      <input id="q" type="search" placeholder="지역명을 입력하세요 (예: 강남)" aria-label="매장 검색">
-      <button class="btn" id="go">SEARCH</button>
-    </form>
-    <ul class="list" id="list"></ul>
-  </div>
-</section>
+    <script>
+        // 1. 메뉴 클릭 시 부드럽게 스크롤 이동
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
 
-<footer class="ft">
-  <a class="logo" href="#top"><span class="bun">BURGER</span><b>KING</b></a>
-  <p>학습용으로 만든 페이지입니다. 실제 브랜드 사이트가 아닙니다.</p>
-  <p>© 2026 Burger King Practice. All rights reserved.</p>
-</footer>
+        // 2. 화면에 나타날 때 요소가 스르륵 올라오는 애니메이션 (Intersection Observer)
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('show');
+                }
+            });
+        }, {
+            threshold: 0.1 // 요소가 화면에 10% 보일 때 애니메이션 실행
+        });
 
-<script src="js/main.js"></script>
+        const hiddenElements = document.querySelectorAll('.hidden');
+        hiddenElements.forEach((el) => observer.observe(el));
+    </script>
 </body>
 </html>
